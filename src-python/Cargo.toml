@@ -1,0 +1,19 @@
+[package]
+name = "audio-test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mp4 = "0.12.0"
+ndarray = "0.15.3"
+ndarray-npy = { version = "0.8.0", features = [ "compressed_npz" ] }
+tch = "0.9.0"
+tract = "0.18.4"
+tract-onnx = "0.18.4"
+
+
+[[bin]]
+name = "mp4"
+path = "src/mp4.rs"

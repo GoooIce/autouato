@@ -1,0 +1,31 @@
+{
+  "name": "autouato",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:python:win": "pyinstaller -F src-python/hello.py --distpath src-tauri/bin/python --clean -n hello-x86_64-pc-windows-msvc",
+    "build:python:aarch64": "pyinstaller src-python/hello.py --paths /Users/devel0per/opt/miniconda3/envs/autocut/lib/python3.9/site-packages --distpath src-tauri/bin/python --clean -n hello-aarch64-apple-darwin",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.16",
+    "@tauri-apps/api": "^1.2.0",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "next": "13.0.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.3"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.2.1"
+  }
+}
