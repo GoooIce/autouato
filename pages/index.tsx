@@ -2,34 +2,11 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Button from "@mui/material/Button";
-import { invoke } from "@tauri-apps/api/tauri";
-
-import { Command } from "@tauri-apps/api/shell";
-import { emit, listen } from "@tauri-apps/api/event";
 
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [outValue, setOutValue] = useState("");
-  useEffect(() => {
-    // listen to the `click` event and get a function to remove the event listener
-    // there's also a `once` function that subscribes to an event and automatically unsubscribes the listener on the first event
-    const unlisten = listen("message", (event) => {
-      // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
-      // event.payload is the payload object
-      setOutValue(event.payload);
-    });
-  }, []);
-  const asyncCommand = async () => {
-    const command = Command.sidecar("bin/python/hello");
-
-    const output = await command.execute();
-    const { stdout, stderr } = output;
-    setOutValue(stdout);
-  };
-  const rustCommand = () => {
-    invoke("command_with_sidecar").then().catch(console.error);
-  };
 
   return (
     <div className={styles.container}>
@@ -43,12 +20,8 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Autouato</a>, {outValue}
         </h1>
-        <Button onClick={asyncCommand} variant="contained">
-          Hello World
-        </Button>
-        <Button onClick={rustCommand} variant="contained">
-          Hello World
-        </Button>
+        <Button variant="contained">Hello World</Button>
+        <Button variant="contained">Hello World</Button>
       </main>
 
       <footer className={styles.footer}>

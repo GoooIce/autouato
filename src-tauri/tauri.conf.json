@@ -13,15 +13,6 @@
   "tauri": {
     "allowlist": {
       "all": true,
-      "shell": {
-        "sidecar": true,
-        "scope": [
-          {
-            "name": "bin/python/hello",
-            "sidecar": true
-          }
-        ]
-      },
       "window": {
         "all": true
       }
@@ -33,7 +24,7 @@
       "deb": {
         "depends": []
       },
-      "externalBin": ["bin/python/hello"],
+      "externalBin": [],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

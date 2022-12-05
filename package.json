@@ -5,8 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:python:win": "pyinstaller -F src-python/hello.py --distpath src-tauri/bin/python --clean -n hello-x86_64-pc-windows-msvc",
-    "build:python:aarch64": "pyinstaller src-python/hello.py --paths /Users/devel0per/opt/miniconda3/envs/autocut/lib/python3.9/site-packages --distpath src-tauri/bin/python --clean -n hello-aarch64-apple-darwin",
     "start": "next start",
     "lint": "next lint"
   },
