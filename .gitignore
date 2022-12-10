@@ -38,3 +38,11 @@ next-env.d.ts
 target/
 src-tauri/bin
 src-tauri/target
+
+# files
+*.pcm
+*.mp4
+*.jit
+*.onnx
+*.wav
+*.mkv
