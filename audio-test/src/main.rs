@@ -1,6 +1,5 @@
 // 使用tch-rs加载./silero_vad.jit模型，进行语音活动检测
-
-use std::io::Read;
+mod mp4;
 
 use tch::{CModule, IValue, Tensor};
 
@@ -13,14 +12,16 @@ fn main() {
     // let device = tch::Device::cuda_if_available();
     // 使用ffmpeg将mp4转换为pcm
     // ffmpeg -i 1.mp4 -acodec pcm_s16le -f s16le -ac 1 -ar 16000 1.pcm
-    let mut pcm: Vec<f32> = Vec::new();
-    let mut f = std::fs::File::open("en.pcm").unwrap();
+    // let mut pcm: Vec<f32> = Vec::new();
+    // let mut f = std::fs::File::open("en.pcm").unwrap();
 
-    let mut buf = [0u8; 2];
-    while f.read(&mut buf).unwrap() == 2 {
-        let v = i16::from_le_bytes(buf);
-        pcm.push(v as f32 / 32768.0);
-    }
+    // let mut buf = [0u8; 2];
+    // while f.read(&mut buf).unwrap() == 2 {
+    //     let v = i16::from_le_bytes(buf);
+    //     pcm.push(v as f32 / 32768.0);
+    // }
+
+    let pcm = mp4::read("1.mp4").unwrap();
 
     let pcm = Tensor::of_slice(&pcm);
 

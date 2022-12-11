@@ -15,9 +15,9 @@ use symphonia::core::probe::Hint;
 // use dasp::Sample;
 use dasp::{interpolate::sinc::Sinc, ring_buffer, signal, Sample};
 
-fn main() {
+pub fn read(file_name: &str) -> Result<Vec<f32>, Error> {
     // Open the media source
-    let src = std::fs::File::open("1.mp4").expect("msg");
+    let src = std::fs::File::open(file_name).expect("msg");
 
     let source = MediaSourceStream::new(Box::new(src), Default::default());
 
@@ -47,7 +47,7 @@ fn main() {
 
     let len_packet = 0;
     let mut len_loop = 0;
-    let mut ts_vec = Vec::new();
+    let mut ts_vec: Vec<f32> = Vec::new();
 
     loop {
         len_loop += 1;
@@ -81,7 +81,7 @@ fn main() {
                         let new_signal = signal.from_hz_to_hz(sinc, sample_rate.into(), 16000.0);
 
                         for frame in new_signal.until_exhausted() {
-                            ts_vec.push(frame[0].to_sample::<i16>());
+                            ts_vec.push(frame[0].to_sample::<f32>());
                         }
                     }
                     _ => {
@@ -100,4 +100,5 @@ fn main() {
     println!("len_packet: {}", len_packet);
     println!("len_loop: {}", len_loop);
     println!("ts_vec: {:?}", ts_vec.len());
+    Ok(ts_vec)
 }

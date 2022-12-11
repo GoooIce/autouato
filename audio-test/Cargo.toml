@@ -12,6 +12,7 @@ log = "*"
 dasp = {version = "*", features = ["all"]}
 tract-onnx = {version = "0.18.4"}
 image = "0.24.1"
+hound = "3"
 
 [[test]]
 name = "pcm"
@@ -19,5 +20,9 @@ harness = false
 
 [[test]]
 name = "vad"
+harness = false
+
+[[test]]
+name = "dasp"
 harness = false
 
