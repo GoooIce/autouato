@@ -1,55 +1,8 @@
-// 使用tch-rs加载./silero_vad.jit模型，进行语音活动检测
-mod mp4;
-
 use tch::{CModule, IValue, Tensor};
-
-// use log::{error, info, warn};
-
-fn main() {
-    tch::maybe_init_cuda();
-    // println!("Cuda available: {}", tch::Cuda::is_available());
-    // println!("Cudnn available: {}", tch::Cuda::cudnn_is_available());
-    // let device = tch::Device::cuda_if_available();
-    // 使用ffmpeg将mp4转换为pcm
-    // ffmpeg -i 1.mp4 -acodec pcm_s16le -f s16le -ac 1 -ar 16000 1.pcm
-    // let mut pcm: Vec<f32> = Vec::new();
-    // let mut f = std::fs::File::open("en.pcm").unwrap();
-
-    // let mut buf = [0u8; 2];
-    // while f.read(&mut buf).unwrap() == 2 {
-    //     let v = i16::from_le_bytes(buf);
-    //     pcm.push(v as f32 / 32768.0);
-    // }
-
-    let pcm = mp4::read("1.mp4").unwrap();
-
-    let pcm = Tensor::of_slice(&pcm);
-
-    // get audio length
-    let audio_length_samples = pcm.size()[0];
-
-    let output = get_speech_probs(pcm, audio_length_samples, 16000);
-
-    println!("{:?}", output.len());
-    let speechs = get_speech_timestamps(output, audio_length_samples, 16000);
-    println!("{:?}, {:?}", speechs, speechs.len());
-    show_speech_timestamps_seconds(speechs);
-}
-
-fn show_speech_timestamps_seconds(speechs: Vec<(i64, i64)>) {
-    for (start, end) in speechs {
-        // 保留小数点后3位输出
-        println!(
-            "{} - {}",
-            start as f32 / 1000.0 / 16.0,
-            end as f32 / 1000.0 / 16.0
-        );
-    }
-}
 
 // use speech probs to get speech timestamps
 // 通过语音概率获取语音时间戳
-fn get_speech_timestamps(
+pub fn get_speech_timestamps(
     speech_probs: Vec<f64>,    // 包含语音概率的数组
     audio_length_samples: i64, // 音频长度（采样数为单位）
     sample_def: i64,           // 每个时间窗口的采样数
@@ -66,7 +19,7 @@ fn get_speech_timestamps(
 
     let mut temp_end = 0; // 临时结束时间，用于记录当前语音区间的结束时间
     let mut start = 0; // 语音区间的开始时间
-    let mut end = 0; // 语音区间的结束时间
+    let mut _end = 0; // 语音区间的结束时间
     let mut is_speech = false; // 是否为语音区间
 
     // 从第一个窗口开始，遍历每个窗口
@@ -96,11 +49,11 @@ fn get_speech_timestamps(
             if (window_size_samples * i as i64) - temp_end < min_silence_samples {
                 continue;
             } else {
-                end = temp_end;
+                _end = temp_end;
 
                 // 如果当前窗口符合静音区间的最小长度要求，则将之前的临时结束时间戳设为当前窗口的结束时间戳
-                if (end - start) > min_speech_samples {
-                    speech_timestamps.push((start, end));
+                if (_end - start) > min_speech_samples {
+                    speech_timestamps.push((start, _end));
                 }
                 // 重置临时结束时间戳和语音状态，继续遍历下一个时间窗口
                 temp_end = 0;
@@ -113,8 +66,8 @@ fn get_speech_timestamps(
     // 如果最后一个时间窗口是语音区间，则将其视为语音区间的结束
     // 注意这里的结束时间戳应该设置为输入音频的长度
     if is_speech && (window_size_samples * speech_probs.len() as i64 - start) > min_speech_samples {
-        end = window_size_samples * speech_probs.len() as i64;
-        speech_timestamps.push((start, end));
+        _end = window_size_samples * speech_probs.len() as i64;
+        speech_timestamps.push((start, _end));
     }
 
     // 根据语音区间的补偿长度，对语音区间进行补偿调整
@@ -149,13 +102,13 @@ fn get_speech_timestamps(
     clone_speech_timestamps
 }
 
-fn get_speech_probs(audio: Tensor, audio_length_samples: i64, sample_def: i64) -> Vec<f64> {
+pub fn get_speech_probs(audio: Tensor, audio_length_samples: i64, sample_def: i64) -> Vec<f64> {
     // tch::maybe_init_cuda();
     // println!("Cuda available: {}", tch::Cuda::is_available());
     // println!("Cudnn available: {}", tch::Cuda::cudnn_is_available());
     // let device = tch::Device::cuda_if_available();
     // 加载模型
-    let mut model = CModule::load("./silero_vad.jit").unwrap();
+    let mut model = CModule::load("resources/silero_vad.jit").unwrap();
     // 如果cuda可用，则将模型转移到cuda上
     // if tch::Cuda::is_available() {
     //     model.to(device, tch::Kind::Float, false);

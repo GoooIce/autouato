@@ -1,4 +1,5 @@
 use dasp::Signal as dasp_Signal;
+use tch::Tensor;
 
 // use symphonia::core::audio::AudioBuffer;
 use symphonia::core::audio::AudioBufferRef;
@@ -15,9 +16,9 @@ use symphonia::core::probe::Hint;
 // use dasp::Sample;
 use dasp::{interpolate::sinc::Sinc, ring_buffer, signal, Sample};
 
-fn main() {
+pub fn read(file_name: &str) -> Result<(Tensor, i64), Error> {
     // Open the media source
-    let src = std::fs::File::open("1.mp4").expect("msg");
+    let src = std::fs::File::open(file_name).expect("msg");
 
     let source = MediaSourceStream::new(Box::new(src), Default::default());
 
@@ -45,12 +46,12 @@ fn main() {
     let trace_id = track.id;
     let sample_rate = track.codec_params.sample_rate.unwrap();
 
-    let len_packet = 0;
-    let mut len_loop = 0;
-    let mut ts_vec = Vec::new();
+    // let len_packet = 0;
+    let mut _len_loop = 0;
+    let mut ts_vec: Vec<f32> = Vec::new();
 
     loop {
-        len_loop += 1;
+        _len_loop += 1;
         let packet = match format.next_packet() {
             Ok(packet) => packet,
             Err(Error::IoError(_)) => break,
@@ -81,7 +82,7 @@ fn main() {
                         let new_signal = signal.from_hz_to_hz(sinc, sample_rate.into(), 16000.0);
 
                         for frame in new_signal.until_exhausted() {
-                            ts_vec.push(frame[0].to_sample::<i16>());
+                            ts_vec.push(frame[0].to_sample::<f32>());
                         }
                     }
                     _ => {
@@ -96,8 +97,7 @@ fn main() {
             }
         }
     }
+    let pcm = Tensor::of_slice(ts_vec.clone().as_ref());
 
-    println!("len_packet: {}", len_packet);
-    println!("len_loop: {}", len_loop);
-    println!("ts_vec: {:?}", ts_vec.len());
+    Ok((pcm.clone(&pcm), pcm.size()[0]))
 }
