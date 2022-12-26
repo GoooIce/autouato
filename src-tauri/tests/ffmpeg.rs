@@ -23,6 +23,7 @@ fn main() {
     );
 
     let mut i = 0;
+    let mut file_list: Vec<String> = Vec::new();
 
     // 将时间戳ts转换为00:00:00.000格式输出
     for (start, end, is_speech) in &ts {
@@ -37,8 +38,21 @@ fn main() {
                 "ffmpeg -i {}.mp4 -filter:v 'setpts=0.25*PTS' -filter:a 'atempo=4.0' t{}.mp4",
                 i, i
             );
+            file_list.push(format!("t{}.mp4", i));
+        } else {
+            file_list.push(format!("{}.mp4", i));
         }
         i += 1;
+    }
+
+    // print!("ffmpeg -i \"concat:");
+    // print!("{}", file_list.join("|"));
+    // println!("\" -c copy output.mp4");
+    // input file list
+    println!("ffmpeg -f concat -safe 0 -i input.txt -c copy output.mp4");
+    // input.txt
+    for file in &file_list {
+        println!("file '{}'", file);
     }
 
     println!("{:?}", ts);

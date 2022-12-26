@@ -1,6 +1,8 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
+import FileOpen from "@mui/icons-material/FileOpen";
 import { open } from "@tauri-apps/api/dialog";
 import { emit, listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
@@ -59,9 +61,9 @@ export default function Home() {
         <h5 className={styles.text}>{audioMessage}</h5>
         <h5 className={styles.text}>{progress}</h5>
         {progress && <CircularProgress />}
-        <button className={styles.card} onClick={selectMp4}>
+        <Button variant="contained" onClick={selectMp4} endIcon={<FileOpen />}>
           Select MP4
-        </button>
+        </Button>
       </main>
 
       <footer className={styles.footer}>

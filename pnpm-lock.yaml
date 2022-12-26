@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@emotion/react': ^11.10.5
   '@emotion/styled': ^11.10.5
+  '@mui/icons-material': ^5.11.0
   '@mui/material': ^5.10.16
   '@tauri-apps/api': '1'
   '@tauri-apps/cli': '1'
@@ -20,6 +21,7 @@ specifiers:
 dependencies:
   '@emotion/react': 11.10.5_281bd807203c2775b3a3c90b05c2fd40
   '@emotion/styled': 11.10.5_74c491954720260b1e86f16cafac796a
+  '@mui/icons-material': registry.npmmirror.com/@mui/icons-material/5.11.0_3134d274c7e9850428825dbbff9a415d
   '@mui/material': 5.10.16_99dfcb46eee75b85ae928b67cf3103e5
   '@tauri-apps/api': registry.npmmirror.com/@tauri-apps/api/1.2.0
   '@types/node': 18.11.9
@@ -2488,6 +2490,35 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  registry.npmmirror.com/@babel/runtime/7.20.7:
+    resolution: {integrity: sha512-UF0tvkUtxwAgZ5W/KrkHf0Rn0fdnLDU9ScxBrEVNUprE/MzirjK4MJUX1/BVDv00Sv8cljtukVK1aky++X1SjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/runtime/-/runtime-7.20.7.tgz}
+    name: '@babel/runtime'
+    version: 7.20.7
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.11
+    dev: false
+
+  registry.npmmirror.com/@mui/icons-material/5.11.0_3134d274c7e9850428825dbbff9a415d:
+    resolution: {integrity: sha512-I2LaOKqO8a0xcLGtIozC9xoXjZAto5G5gh0FYUMAlbsIHNHIjn4Xrw9rvjY20vZonyiGrZNMAlAXYkY6JvhF6A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mui/icons-material/-/icons-material-5.11.0.tgz}
+    id: registry.npmmirror.com/@mui/icons-material/5.11.0
+    name: '@mui/icons-material'
+    version: 5.11.0
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.7
+      '@mui/material': 5.10.16_99dfcb46eee75b85ae928b67cf3103e5
+      '@types/react': 18.0.25
+      react: 18.2.0
+    dev: false
+
   registry.npmmirror.com/@tauri-apps/api/1.2.0:
     resolution: {integrity: sha512-lsI54KI6HGf7VImuf/T9pnoejfgkNoXveP14pVV7XarrQ46rOejIVJLFqHI9sRReJMGdh2YuCoI3cc/yCWCsrw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tauri-apps/api/-/api-1.2.0.tgz}
     name: '@tauri-apps/api'
@@ -2764,6 +2795,12 @@ packages:
     version: 3.1.1
     engines: {node: '>=8'}
     dev: true
+
+  registry.npmmirror.com/regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz}
+    name: regenerator-runtime
+    version: 0.13.11
+    dev: false
 
   registry.npmmirror.com/shebang-command/2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/shebang-command/-/shebang-command-2.0.0.tgz}
